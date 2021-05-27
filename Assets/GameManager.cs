@@ -71,10 +71,11 @@ public class GameManager : MonoBehaviour
     private void AtualizarDadosJogador()
     {
         if (DadosJogo != null)
-            DadosJogo.text = "Moedas no nível: " + NrOvosDoNivel + "| Total de Moedas: " + totalOvos;
+            DadosJogo.text = "Moedas no nível: " + NrOvosDoNivel + " | Total de Moedas: " + totalOvos;
     }
     public void adicionaOvo()
     {
+        Debug.Log("Apanhei uma moeda");
         totalOvos++;
         OvosApanhadosNesteNivel++;
     }

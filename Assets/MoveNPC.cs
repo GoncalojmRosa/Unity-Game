@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
+
 
 public class MoveNPC : MonoBehaviour
 {
@@ -18,6 +20,10 @@ public class MoveNPC : MonoBehaviour
 
     Rigidbody _rigidBody;
 
+    Animator _animator;
+
+    NavMeshAgent _navMeshAgent;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -27,6 +33,9 @@ public class MoveNPC : MonoBehaviour
             return;
         }
         _rigidBody = GetComponent<Rigidbody>();
+        _navMeshAgent = GetComponent<NavMeshAgent>();
+        _animator = GetComponent<Animator>();
+
     }
 
     // Update is called once per frame
@@ -39,7 +48,7 @@ public class MoveNPC : MonoBehaviour
         }
         //Debug.Log(Vector3.Distance(transform.position, pontos[proximoPonto].position));
 
-        if (Vector3.Distance(transform.position, pontos[proximoPonto].position)<distanciaMinima)
+        if (Vector3.Distance(transform.position, pontos[proximoPonto].position) < distanciaMinima)
         {
             proximoPonto++;
             if (proximoPonto > pontos.Length - 1)
@@ -47,11 +56,12 @@ public class MoveNPC : MonoBehaviour
                 proximoPonto = 0;
             }
         }
-
-        Vector3 direcao = pontos[proximoPonto].position - transform.position;
-        Quaternion rotacao = Quaternion.LookRotation(direcao, Vector3.up);
-
-        transform.rotation = rotacao;
-        _rigidBody.MovePosition(transform.position + (transform.forward * velocidade * Time.deltaTime));
+        //Vector3 direcao = pontos[proximoPonto].position - transform.position;
+        //Quaternion rotacao = Quaternion.LookRotation(direcao, Vector3.up);
+        //transform.rotation = rotacao;
+        //_rigidBody.MovePosition(transform.position + (transform.forward * velocidade * Time.deltaTime));
+        _animator.SetFloat("velocidade", _navMeshAgent.velocity.magnitude);
+        _navMeshAgent.SetDestination(pontos[proximoPonto].position);
+        
     }
 }
